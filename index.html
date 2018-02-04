@@ -1,5 +1,26 @@
 <!doctype html>
 <html>
+	 <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <script>
+    AFRAME.registerComponent('toggle-on-tap', {
+      init: function () {
+        this.onClick = this.onClick.bind(this);
+      },
+      play: function () {
+        window.addEventListener('click', this.onClick);
+      },
+      pause: function () {
+        window.removeEventListener('click', this.onClick);
+      },
+      onClick: function (evt) {
+        var video = this.el.components.material.material.map.image;
+        if (!video) { return; }
+        video.paused ? video.play() : video.pause();
+      }
+    });
+  </script>
+
 	<head>
 	 <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
 	 <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.4.9/aframe/build/aframe-ar.js"></script>
@@ -8,13 +29,16 @@
 	<a-scene> embedded
 		arjs="matrixCodeType: 3x3;"
 		vr-mode-ui-"enabled: false">
+		<a-assets>
+			<video id="beach" playsinline webkit-playsinline
+			       autoplay loop="true" src="beach.mp4">
+			</video>
+			</a-assets>
+		
 	 <a-marker type"barcode" value"5">
 		 <a-cone position="0 0.5 0"
 	 		 material="color: red;">
-		 </a-cone>
-	 <a-cone position="0 3 0"
-	  material="color: red;">
-	 </a-cone>
+		
 	 <a-camera>
 	 </a-camera>
 </a-scene>
